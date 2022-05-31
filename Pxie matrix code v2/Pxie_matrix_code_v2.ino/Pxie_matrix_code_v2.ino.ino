@@ -66,6 +66,72 @@ void printMatrix() {
   Serial.println("");
 }
 
+void ButtonToMatrix(){
+  /*
+    1a = keys[0][0]
+    1b = keys[1][0]
+    1c = keys[2][0]
+    2a = keys[0][1]
+    2b = keys[1][1]
+    2c = keys[2][1]
+    3a = keys[0][2]
+    3b = keys[1][2]
+    3c = keys[2][2]
+    4a = keys[0][3]
+    4b = keys[1][3]
+    4c = keys[2][3]
+  */
+
+  
+switch (var) {
+  case 1a:
+    Serial.println("1a")
+    break;
+  case 1b:
+    Serial.println("1b")
+    break;
+  case 1c:
+    Serial.println("1c")
+    break;
+  case 2a:
+    Serial.println("2a")
+    break;
+  case 2b:
+    Serial.println("2b")
+    break;
+  case 2c:
+    Serial.println("2c")
+    break;
+  case 3a:
+    Serial.println("3a")
+    break;
+  case 3b:
+    Serial.println("3b")
+    break;
+  case 3c:
+    Serial.println("3c")
+    break;
+  case 4a:
+    Serial.println("4a")
+    break;
+  case 4b:
+    Serial.println("4b")
+    break;
+  case 4c:
+    Serial.println("4c")
+    break;
+
+    //denkbar auch als String?
+  
+  default:
+    // Statement(s)
+    break; // Wird nicht benötigt, wenn Statement(s) vorhanden sind
+}
+  
+
+  
+  }
+
 void loop() {
   readMatrix();
 
