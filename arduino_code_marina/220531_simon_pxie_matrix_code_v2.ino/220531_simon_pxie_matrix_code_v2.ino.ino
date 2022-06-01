@@ -98,7 +98,7 @@ void ButtonToMatrix(){
   */
 
   
-switch (var) {
+switch () {
   case 1a:
     Serial.println("1a")
     break;
