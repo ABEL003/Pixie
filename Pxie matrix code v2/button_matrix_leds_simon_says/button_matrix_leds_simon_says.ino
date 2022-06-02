@@ -36,7 +36,6 @@ void setup() {
   for (int x = 0; x < colCount; x++) {
     pinMode(cols[x], INPUT_PULLUP);
   }
-
 }
 
 void readMatrix() {
@@ -57,9 +56,11 @@ void readMatrix() {
     // schaltet die Spalte wieder aus
     pinMode(curCol, INPUT);
   }
+
 }
 
-/*void printMatrix() {
+
+void printMatrix() {
   for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 
     Serial.print(F("R_"));
@@ -73,7 +74,7 @@ void readMatrix() {
     Serial.println("");
   }
   Serial.println("");
-}*/
+}
 
 /*void lightLeds() {
   //First button lights nineth LED
@@ -221,45 +222,53 @@ void readMatrix() {
     FastLED.show();
     delay(0);
   }
-}*/
+  }*/
 
 void loop() {
   readMatrix();
 
-  //printMatrix();
+  printMatrix();
 
   //lightLeds();
 
-  if (level == 1)
-    generate_sequence();//generate a sequence;
+  if (level == 1) generate_sequence();//generate a sequence;
 
-  if (keys[0][3] == 1 || level != 1) //If start button is pressed or you're winning
-  {
+  if (keys[0][3] == 0 || level != 1) { //If start button is pressed or you're winning
+    Serial.println("AXDFASDL");
+
     show_sequence();    //show the sequence
     get_sequence();     //wait for your sequence
   }
 }
 
-void show_sequence()
-{
+void show_sequence() {
   leds[0] = CRGB::Black;
-  FastLED.show();
+
+
   leds[1] = CRGB::Black;
-  FastLED.show();
+
+
   leds[2] = CRGB::Black;
-  FastLED.show();
-  leds[4] = CRGB::Black;
-  FastLED.show();
+
+
   leds[5] = CRGB::Black;
-  FastLED.show();
+
+
   leds[6] = CRGB::Black;
-  FastLED.show();
+
+
+  leds[7] = CRGB::Black;
+
+
   leds[8] = CRGB::Black;
-  FastLED.show();
+
+
   leds[9] = CRGB::Black;
-  FastLED.show();
+
+
   leds[10] = CRGB::Black;
   FastLED.show();
+
   /*keys[0][0] == 1;
     keys[0][1] == 1;
     keys[0][2] == 1;
@@ -270,292 +279,349 @@ void show_sequence()
     keys[2][1] == 1;
     keys[2][2] == 1;*/
 
-  for (int i = 0; i < level; i++)
-  {
-    digitalWrite(sequence[i], HIGH);
+
+  /*keys[0][0] == 1;
+    keys[0][1] == 1;
+    keys[0][2] == 1;
+    keys[0][3] == 1;
+    keys[1][0] == 1;
+    keys[1][1] == 1;
+    keys[1][2] == 1;
+    keys[1][3] == 1;
+    keys[2][0] == 1;
+    keys[2][1] == 1;
+    keys[2][2] == 1;
+    keys[2][3] == 1;*/
+
+  for (int i = 0; i < level; i++) {
+    leds[sequence[i]] = CRGB::RoyalBlue;
+    FastLED.show();
     delay(velocity);
-    digitalWrite(sequence[i], LOW);
+
+    leds[sequence[i]] = CRGB::Black;
+    FastLED.show();
     delay(200);
+
   }
 }
 
-void get_sequence()
-{
+void get_sequence() {
   int flag = 0; //this flag indicates if the sequence is correct
 
-  for (int i = 0; i < level; i++)
-  {
+  for (int i = 0; i < level; i++) {
     flag = 0;
-    while (flag == 0)
-    {
-      if (keys[0][0] == 1)
-      {
+    while (flag == 0) {
+      if (keys[0][0] == 1) {
         leds[8] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 5;
+        your_sequence[i] = 10;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[8] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[0][1] == 1)
-      {
+      if (keys[0][1] == 1) {
         leds[9] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 4;
+        your_sequence[i] = 9;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[9] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[0][2] == 1)
-      {
+      if (keys[0][2] == 1) {
         leds[10] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 3;
+        your_sequence[i] = 8;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[10] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[1][0] == 1)
-      {
+      if (keys[1][0] == 1) {
         leds[7] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 2;
+        your_sequence[i] = 7;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[7] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[1][1] == 1)
-      {
-        leds[6] = CRGB::RoyalBlue;
+      if (keys[1][1] == 1) {
+        leds[7] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 2;
+        your_sequence[i] = 6;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
+        leds[7] = CRGB::Black;
+        FastLED.show();
+      }
+
+      if (keys[1][2] == 1) {
+        leds[6] = CRGB::RoyalBlue;
+        FastLED.show();
+        your_sequence[i] = 5;
+        flag = 1;
+        delay(200);
+
+        if (your_sequence[i] != sequence[i]) {
+          wrong_sequence();
+          return;
+        }
+
         leds[6] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[1][2] == 1)
-      {
-        leds[5] = CRGB::RoyalBlue;
-        FastLED.show();
-        your_sequence[i] = 2;
-        flag = 1;
-        delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
-          wrong_sequence();
-          return;
-        }
-        leds[5] = CRGB::Black;
-        FastLED.show();
-      }
-
-      if (keys[2][0] == 1)
-      {
+      if (keys[2][0] == 1) {
         leds[0] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 2;
+        your_sequence[i] = 4;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[0] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[2][1] == 1)
-      {
+      if (keys[2][1] == 1) {
         leds[1] = CRGB::RoyalBlue;
         FastLED.show();
-        your_sequence[i] = 2;
+        your_sequence[i] = 3;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[1] = CRGB::Black;
         FastLED.show();
       }
 
-      if (keys[2][2] == 1)
-      {
+      if (keys[2][2] == 1) {
         leds[2] = CRGB::RoyalBlue;
         FastLED.show();
         your_sequence[i] = 2;
         flag = 1;
         delay(200);
-        if (your_sequence[i] != sequence[i])
-        {
+
+        if (your_sequence[i] != sequence[i]) {
           wrong_sequence();
           return;
         }
+
         leds[2] = CRGB::Black;
         FastLED.show();
       }
-
     }
     right_sequence();
   }
-
-void generate_sequence()
-{
-randomSeed(millis()); //in this way is really random!!!
-
-for (int i = 0; i < MAX_LEVEL; i++)
-{
-sequence[i] = random(2,6);
 }
+void generate_sequence() {
+  //  randomSeed(millis()); //in this way is really random!!!
+
+  for (int i = 0; i < MAX_LEVEL; i++) {
+    sequence[i] = random(2, 6);
+  }
 }
 
-void wrong_sequence()
-{
-for (int i = 0; i < 3; i++)
-{
-  leds[0] = CRGB::Red;
-  FastLED.show();
-  leds[1] = CRGB::Red;
-  FastLED.show();
-  leds[2] = CRGB::Red;
-  FastLED.show();
-  leds[4] = CRGB::Red;
-  FastLED.show();
-  leds[5] = CRGB::Red;
-  FastLED.show();
-  leds[6] = CRGB::Red;
-  FastLED.show();
-  leds[8] = CRGB::Red;
-  FastLED.show();
-  leds[9] = CRGB::Red;
-  FastLED.show();
-  leds[10] = CRGB::Red;
-  FastLED.show();
-delay(250);
+void wrong_sequence() {
+  for (int i = 0; i < 3; i++) {
+    leds[0] = CRGB::Red;
+    FastLED.show();
+
+    leds[1] = CRGB::Red;
+    FastLED.show();
+
+    leds[2] = CRGB::Red;
+    FastLED.show();
+
+    leds[5] = CRGB::Red;
+    FastLED.show();
+
+    leds[6] = CRGB::Red;
+    FastLED.show();
+
+    leds[7] = CRGB::Red;
+    FastLED.show();
+
+    leds[8] = CRGB::Red;
+    FastLED.show();
+
+    leds[9] = CRGB::Red;
+    FastLED.show();
+
+    leds[10] = CRGB::Red;
+    FastLED.show();
+
+    delay(250);
+
+    leds[0] = CRGB::Black;
+    FastLED.show();
+
+    leds[1] = CRGB::Black;
+    FastLED.show();
+
+    leds[2] = CRGB::Black;
+    FastLED.show();
+
+    leds[5] = CRGB::Black;
+    FastLED.show();
+
+    leds[6] = CRGB::Black;
+    FastLED.show();
+
+    leds[7] = CRGB::Black;
+    FastLED.show();
+
+    leds[8] = CRGB::Black;
+    FastLED.show();
+
+    leds[9] = CRGB::Black;
+    FastLED.show();
+
+    leds[10] = CRGB::Black;
+    FastLED.show();
+
+    delay(250);
+  }
+  level = 1;
+  velocity = 1000;
+}
+
+void right_sequence() {
+
+
   leds[0] = CRGB::Black;
   FastLED.show();
-  leds[1] = CRGB::Black;
-  FastLED.show();
-  leds[2] = CRGB::Black;
-  FastLED.show();
-  leds[4] = CRGB::Black;
-  FastLED.show();
-  leds[5] = CRGB::Black;
-  FastLED.show();
-  leds[6] = CRGB::Black;
-  FastLED.show();
-  leds[8] = CRGB::Black;
-  FastLED.show();
-  leds[9] = CRGB::Black;
-  FastLED.show();
-  leds[10] = CRGB::Black;
-  FastLED.show();
-delay(250);
-}
-level = 1;
-velocity = 1000;
-}
 
-void right_sequence()
-{
-  leds[0] = CRGB::Black;
-  FastLED.show();
   leds[1] = CRGB::Black;
   FastLED.show();
+
   leds[2] = CRGB::Black;
   FastLED.show();
-  leds[4] = CRGB::Black;
-  FastLED.show();
+
   leds[5] = CRGB::Black;
   FastLED.show();
+
   leds[6] = CRGB::Black;
   FastLED.show();
+
+  leds[7] = CRGB::Black;
+  FastLED.show();
+
   leds[8] = CRGB::Black;
   FastLED.show();
+
   leds[9] = CRGB::Black;
   FastLED.show();
+
   leds[10] = CRGB::Black;
   FastLED.show();
-delay(250);
+
+  delay(250);
 
   leds[0] = CRGB::Green;
   FastLED.show();
+
   leds[1] = CRGB::Green;
   FastLED.show();
+
   leds[2] = CRGB::Green;
   FastLED.show();
-  leds[4] = CRGB::Green;
-  FastLED.show();
+
   leds[5] = CRGB::Green;
   FastLED.show();
+
   leds[6] = CRGB::Green;
   FastLED.show();
+
+  leds[7] = CRGB::Green;
+  FastLED.show();
+
   leds[8] = CRGB::Green;
   FastLED.show();
+
   leds[9] = CRGB::Green;
   FastLED.show();
+
   leds[10] = CRGB::Green;
   FastLED.show();
-delay(500);
+
+  delay(500);
+
   leds[0] = CRGB::Black;
   FastLED.show();
+
   leds[1] = CRGB::Black;
   FastLED.show();
+
   leds[2] = CRGB::Black;
   FastLED.show();
-  leds[4] = CRGB::Black;
-  FastLED.show();
+
   leds[5] = CRGB::Black;
   FastLED.show();
+
   leds[6] = CRGB::Black;
   FastLED.show();
+
+  leds[7] = CRGB::Black;
+  FastLED.show();
+
   leds[8] = CRGB::Black;
   FastLED.show();
+
   leds[9] = CRGB::Black;
   FastLED.show();
+
   leds[10] = CRGB::Black;
   FastLED.show();
-delay(500);
 
-if (level < MAX_LEVEL);
-level++;
+  delay(500);
 
-velocity -= 50; //increase difficulty
+  if (level < MAX_LEVEL);
+  level++;
+
+  velocity -= 50; //increase difficulty
 }
