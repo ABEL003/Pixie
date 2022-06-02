@@ -12,7 +12,7 @@ int sequence[MAX_LEVEL];
 int your_sequence[MAX_LEVEL];
 int level = 1;
 
-int velocity = 1000;
+int velocity = 5000;
 
 //Zeile mit Input Pins
 byte rows[] = {2, 3, 4, 5};
@@ -77,47 +77,47 @@ void printMatrix() {
 }
 
 /*void lightLeds() {
-  //First button lights nineth LED
+  //First button lights first LED
   if (keys[0][0] == 0) {
     // Turn the LED on
-    leds[8] = CRGB::Red;                    //LED wird rot geschalten
+    leds[0] = CRGB::Red;                    //LED wird rot geschalten
     FastLED.show();                         //wird angezeigt
     delay(0);                               //warten
   }
   else if (keys[0][0] == 1) {
     // Turn the LED off
-    leds[8] = CRGB::Black;
+    leds[0] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
 
-  //Second button lights tenth LED
+  //Second button lights sixth LED
   if (keys[0][1] == 0) {
-    leds[9] = CRGB::Red;
+    leds[5] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
   else if (keys[0][1] == 1) {
-    leds[9] = CRGB::Black;
+    leds[5] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
 
-  //Third button lights eleventh LED
+  //Third button lights seventh LED
   if (keys[0][2] == 0) {
-    leds[10] = CRGB::Red;
+    leds[6] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
   else if (keys[0][2] == 1) {
-    leds[10] = CRGB::Black;
+    leds[6] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
 
   //Fourth button lights twelveth LED
-  if (keys[0][3] == 0) {
-    leds[11] = CRGB::Blue;                    //Simon says start button
+  if (keys[0][3] == 0) {                        //Simon Says start button
+    leds[11] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
@@ -127,102 +127,102 @@ void printMatrix() {
     delay(0);
   }
 
-  //Fifth button lights eighth LED
+  //Fifth button lights second LED
   if (keys[1][0] == 0) {
-    leds[7] = CRGB::Red;
-    FastLED.show();
-    delay(0);
-  }
-  else if (keys[1][0] == 1) {
-    leds[7] = CRGB::Black;
-    FastLED.show();
-    delay(0);
-  }
-
-  //Sixth button lights seventh LED
-  if (keys[1][1] == 0) {
-    leds[6] = CRGB::Red;
-    FastLED.show();
-    delay(0);
-  }
-  else if (keys[1][1] == 1) {
-    leds[6] = CRGB::Black;
-    FastLED.show();
-    delay(0);
-  }
-
-  //Seventh button lights sixth LED
-  if (keys[1][2] == 0) {
-    leds[5] = CRGB::Red;
-    FastLED.show();
-    delay(0);
-  }
-  else if (keys[1][2] == 1) {
-    leds[5] = CRGB::Black;
-    FastLED.show();
-    delay(0);
-  }
-
-  //Eighth button lights fifth LED
-  if (keys[1][3] == 0) {
-    leds[4] = CRGB::Purple;                      //Tik-Tak-Toe start button
-    FastLED.show();
-    delay(0);
-  }
-  else if (keys[1][3] == 1) {
-    leds[4] = CRGB::Black;
-    FastLED.show();
-    delay(0);
-  }
-
-  //Nineth button lights first LED
-  if (keys[2][0] == 0) {
-    leds[0] = CRGB::Red;
-    FastLED.show();
-    delay(0);
-  }
-  else if (keys[2][0] == 1) {
-    leds[0] = CRGB::Black;
-    FastLED.show();
-    delay(0);
-  }
-
-  //Tenth button lights second LED
-  if (keys[2][1] == 0) {
     leds[1] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
-  else if (keys[2][1] == 1) {
+  else if (keys[1][0] == 1) {
     leds[1] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
 
-  //Eleventh button lights third LED
-  if (keys[2][2] == 0) {
+  //Sixth button lights fifeth LED
+  if (keys[1][1] == 0) {
+    leds[4] = CRGB::Red;
+    FastLED.show();
+    delay(0);
+  }
+  else if (keys[1][1] == 1) {
+    leds[4] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+  }
+
+  //Seventh button lights eighth LED
+  if (keys[1][2] == 0) {
+    leds[7] = CRGB::Red;
+    FastLED.show();
+    delay(0);
+  }
+  else if (keys[1][2] == 1) {
+    leds[7] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+  }
+
+  //Eighth button lights twelveth LED
+  if (keys[1][3] == 0) {                        //Tik-Tac-Toe start button
+    leds[10] = CRGB::Red;
+    FastLED.show();
+    delay(0);
+  }
+  else if (keys[1][3] == 1) {
+    leds[10] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+  }
+
+  //Nineth button lights third LED
+  if (keys[2][0] == 0) {
     leds[2] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
-  else if (keys[2][2] == 1) {
+  else if (keys[2][0] == 1) {
     leds[2] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
 
-  //Twelveth button lights fourth LED
-  if (keys[2][3] == 0) {
-    leds[3] = CRGB::Green;                      //Send button
+  //Tenth button lights fourth LED
+  if (keys[2][1] == 0) {
+    leds[3] = CRGB::Red;
     FastLED.show();
     delay(0);
   }
-  else if (keys[2][3] == 1) {
+  else if (keys[2][1] == 1) {
     leds[3] = CRGB::Black;
     FastLED.show();
     delay(0);
   }
-  }*/
+
+  //Eleventh button lights nineth LED
+  if (keys[2][2] == 0) {
+    leds[8] = CRGB::Red;
+    FastLED.show();
+    delay(0);
+  }
+  else if (keys[2][2] == 1) {
+    leds[8] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+  }
+
+  //Twelveth button lights tenth LED
+  if (keys[2][3] == 0) {                        //send button
+    leds[9] = CRGB::Red;
+    FastLED.show();
+    delay(0);
+  }
+  else if (keys[2][3] == 1) {
+    leds[9] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+  }
+}*/
 
 void loop() {
   readMatrix();
