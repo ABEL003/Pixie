@@ -26,9 +26,11 @@ int ledChangeStateZero = 0;
 
 //Buttons in der gedrückten Reihenfolge
 String inputString = "";
-
 //wv Knöpfe gedrückt wurden
 int x = 0;
+
+//Rundenzähler
+int level = 0;
 
 //Button drücken und einmal printen statt multiple times
 int key1state;
@@ -233,6 +235,7 @@ void ledStart() {
 
     x = 0;
     inputString = "";
+    level = 0;
   }
 
   if (timing == true)
@@ -377,18 +380,13 @@ void inputButtonSequence() {
     Serial.println(inputString);
     Serial.print("Anzahl Buttons: ");
     Serial.println(x);
-  //if (key 0 0
-  //blau
-  //1a  == TRUE //void, die schaut, ob 1a true ist.
 }
 
+//Runden mitzählen und jede Runde darf ein weiterer Button ausgewählt werden.
 
+//void 1, die gesendeten code aufrbicht und auswertet und in reihenfolge anzeigt.
 
-//void 1, die schaut ob 1a true ist und kombiniert mit 1b und sendet an server/js.
-
-//void 2, die gesendeten code aufrbicht und auswertet und in reihenfolge anzeigt.
-
-//void/if 3, der sagt, ob kombi richtig oder falsch eingegeben wurde.
+//void/if 2, der sagt, ob kombi richtig oder falsch eingegeben wurde.
 
 
 void loop() {
