@@ -5,7 +5,7 @@
 
 CRGB leds[NUM_LEDS];
 
-//timer 5s ledStart
+//timer 5s
 unsigned long startTime;
 boolean timing;
 unsigned long timeOut = 5000;
@@ -24,19 +24,39 @@ int ledStartState = 1;
 int ledChangeState = 1;
 int ledChangeStateZero = 0;
 
-/*boolean 1a
-  boolean 2a
-  boolean 3a
-  boolean 1b
-  boolean 2b
-  boolean 3b
-  boolean 1c
-  boolean 2c
-  boolean 3c*/
-
+//Buttons in der gedrückten Reihenfolge
 String inputString = "";
 
+//wv Knöpfe gedrückt wurden
 int x = 0;
+
+//Button drücken und einmal printen statt multiple times
+int key1state;
+int key1previousState = 0;
+
+int key2state;
+int key2previousState = 0;
+
+int key3state;
+int key3previousState = 0;
+
+int key4state;
+int key4previousState = 0;
+
+int key5state;
+int key5previousState = 0;
+
+int key6state;
+int key6previousState = 0;
+
+int key7state;
+int key7previousState = 0;
+
+int key8state;
+int key8previousState = 0;
+
+int key9state;
+int key9previousState = 0;
 
 
 void setup() {
@@ -90,7 +110,7 @@ void readMatrix() {
     Serial.println("");
   }
   Serial.println("");
-}*/
+  }*/
 
 
 void ledStart() {
@@ -210,6 +230,9 @@ void ledStart() {
     ledStartState = ledChangeStateZero;
     Serial.print("ledStartState danach: ");
     Serial.println(ledStartState);
+
+    x = 0;
+    inputString = "";
   }
 
   if (timing == true)
@@ -234,80 +257,126 @@ void inputButtonSequence() {
     }
   */
 
-  if (keys[0][0] == 0) {
+  if (keys[0][0] == 0 && key1previousState == 0) {
+    key1previousState = 1;
     leds[0] = CRGB::Purple;
     FastLED.show();
     inputString += "1a;";       //"Name" des Knopfes, der gedrückt wurde.
     x += 1;                     //gedrückte Buttons hochzählen bei jedem Mal drücken.
-    delay(500);                 //vermeiden von "contact bounce"
+    delay(100);
+    /*Serial.print("key1previousState:");
+    Serial.println(keys[0][0]);
+    Serial.println(key1previousState);*/
   }
 
-  if (keys[1][0] == 0) {
+  if (keys[0][0] == 1 && key1previousState == 1) {
+    key1previousState = 0;
+    /*Serial.print("asdrgadfg:");
+    Serial.println(keys[0][0]);
+    Serial.println(key1previousState);*/
+  }
+
+  if (keys[1][0] == 0 && key2previousState == 0) {
+    key2previousState = 1;
     leds[1] = CRGB::Purple;
     FastLED.show();
     inputString += "2a;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[2][0] == 0) {
+  if (keys[1][0] == 1 && key2previousState == 1) {
+    key2previousState = 0;
+  }
+
+  if (keys[2][0] == 0 && key3previousState == 0) {
+    key3previousState = 1;
     leds[2] = CRGB::Purple;
     FastLED.show();
     inputString += "3a;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[0][1] == 0) {
+  if (keys[2][0] == 1 && key3previousState == 1) {
+    key3previousState = 0;
+  }
+
+  if (keys[0][1] == 0 && key4previousState == 0) {
+    key4previousState = 1;
     leds[5] = CRGB::Purple;
     FastLED.show();
     inputString += "1b;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[1][1] == 0) {
+  if (keys[0][1] == 1 && key4previousState == 1) {
+    key4previousState = 0;
+  }
+
+  if (keys[1][1] == 0 && key5previousState == 0) {
+    key5previousState = 1;
     leds[4] = CRGB::Purple;
     FastLED.show();
     inputString += "2b;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[2][1] == 0) {
+  if (keys[1][1] == 1 && key5previousState == 1) {
+    key5previousState = 0;
+  }
+
+  if (keys[2][1] == 0 && key6previousState == 0) {
+    key6previousState = 1;
     leds[3] = CRGB::Purple;
     FastLED.show();
     inputString += "3b;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[0][2] == 0) {
+  if (keys[2][1] == 1 && key6previousState == 1) {
+    key6previousState = 0;
+  }
+
+  if (keys[0][2] == 0 && key7previousState == 0) {
+    key7previousState = 1;
     leds[6] = CRGB::Purple;
     FastLED.show();
     inputString += "1c;";
     x += 1;
-    delay(500);
+  }
+
+  if (keys[0][2] == 1 && key7previousState == 1) {
+    key7previousState = 0;
   }
 
 
-  if (keys[1][2] == 0) {
+  if (keys[1][2] == 0 && key8previousState == 0) {
+    key8previousState = 1;
     leds[7] = CRGB::Purple;
     FastLED.show();
     inputString += "2c;";
     x += 1;
-    delay(500);
   }
 
-  if (keys[2][2] == 0) {
+  if (keys[1][2] == 1 && key8previousState == 1) {
+    key8previousState = 0;
+  }
+
+  if (keys[2][2] == 0 && key9previousState == 0) {
+    key9previousState = 1;
     leds[8] = CRGB::Purple;
     FastLED.show();
     inputString += "3c;";
     x += 1;
-    delay(500);
   }
-  Serial.println(inputString);
-  Serial.println(x);
+
+  if (keys[2][2] == 1 && key9previousState == 1) {
+    key9previousState = 0;
+  }
+
+    Serial.print("gedrückter Button: ");
+    Serial.println(inputString);
+    Serial.print("Anzahl Buttons: ");
+    Serial.println(x);
   //if (key 0 0
   //blau
   //1a  == TRUE //void, die schaut, ob 1a true ist.
