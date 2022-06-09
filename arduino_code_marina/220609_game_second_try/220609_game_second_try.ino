@@ -24,20 +24,6 @@ int ledStartState = 1;
 int ledChangeState = 1;
 int ledChangeStateZero = 0;
 
-/*boolean 1a
-  boolean 2a
-  boolean 3a
-  boolean 1b
-  boolean 2b
-  boolean 3b
-  boolean 1c
-  boolean 2c
-  boolean 3c*/
-
-String inputString = "";
-
-int x = 0;
-
 
 void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
@@ -76,7 +62,7 @@ void readMatrix() {
 }
 
 
-/*void printMatrix() {
+void printMatrix() {
   for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
 
     Serial.print(F("R_"));
@@ -90,7 +76,7 @@ void readMatrix() {
     Serial.println("");
   }
   Serial.println("");
-}*/
+}
 
 
 void ledStart() {
@@ -212,14 +198,12 @@ void ledStart() {
     Serial.println(ledStartState);
   }
 
-  if (timing == true)
-  {
-    if (millis() - startTime >= timeOut && simonsaysStart == 1)
-    {
+  if (timing == true) {
+    if (millis() - startTime >= timeOut && simonsaysStart == 1) {
       for (int i = 0; i <= 8; i++) {
         leds[i] = CRGB::Black;
+        FastLED.show();
       }
-      FastLED.show();
       timing = false;
     }
   }
@@ -227,92 +211,27 @@ void ledStart() {
 
 
 void inputButtonSequence() {
-  /*if (ledStartState == 0) {
+  if (ledStartState == 0) {
     for (int i = 0; i <= 8; i++) {
-     leds[i] = CRGB::Blue;
+      leds[i] = CRGB::Blue;
       FastLED.show();
     }
-  */
+    delay(1000);
+    ledStartState == 1;
 
-  if (keys[0][0] == 0) {
-    leds[0] = CRGB::Purple;
-    FastLED.show();
-    inputString += "1a;";       //"Name" des Knopfes, der gedrückt wurde.
-    x += 1;                     //gedrückte Buttons hochzählen bei jedem Mal drücken.
-    delay(500);                 //vermeiden von "contact bounce"
+    //if (key 0 0
+    //blau
+    //1a  == TRUE //void, die schaut, ob 1a true ist.
   }
-
-  if (keys[1][0] == 0) {
-    leds[1] = CRGB::Purple;
-    FastLED.show();
-    inputString += "2a;";
-    x += 1;
-    delay(500);
+  else {
+    if (ledStartState == 1) {
+      for (int i = 0; i <= 8; i++) {
+        leds[i] = CRGB::Black;
+        FastLED.show();
+      }
+    }
   }
-
-  if (keys[2][0] == 0) {
-    leds[2] = CRGB::Purple;
-    FastLED.show();
-    inputString += "3a;";
-    x += 1;
-    delay(500);
-  }
-
-  if (keys[0][1] == 0) {
-    leds[5] = CRGB::Purple;
-    FastLED.show();
-    inputString += "1b;";
-    x += 1;
-    delay(500);
-  }
-
-  if (keys[1][1] == 0) {
-    leds[4] = CRGB::Purple;
-    FastLED.show();
-    inputString += "2b;";
-    x += 1;
-    delay(500);
-  }
-
-  if (keys[2][1] == 0) {
-    leds[3] = CRGB::Purple;
-    FastLED.show();
-    inputString += "3b;";
-    x += 1;
-    delay(500);
-  }
-
-  if (keys[0][2] == 0) {
-    leds[6] = CRGB::Purple;
-    FastLED.show();
-    inputString += "1c;";
-    x += 1;
-    delay(500);
-  }
-
-
-  if (keys[1][2] == 0) {
-    leds[7] = CRGB::Purple;
-    FastLED.show();
-    inputString += "2c;";
-    x += 1;
-    delay(500);
-  }
-
-  if (keys[2][2] == 0) {
-    leds[8] = CRGB::Purple;
-    FastLED.show();
-    inputString += "3c;";
-    x += 1;
-    delay(500);
-  }
-  Serial.println(inputString);
-  Serial.println(x);
-  //if (key 0 0
-  //blau
-  //1a  == TRUE //void, die schaut, ob 1a true ist.
 }
-
 
 
 //void 1, die schaut ob 1a true ist und kombiniert mit 1b und sendet an server/js.
@@ -325,7 +244,7 @@ void inputButtonSequence() {
 void loop() {
   readMatrix();
 
-  //printMatrix();
+  printMatrix();
 
   ledStart();
 
