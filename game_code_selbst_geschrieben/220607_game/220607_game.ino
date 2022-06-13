@@ -31,8 +31,8 @@ int x = 0;
 //wv Knöpfe gedrückt werden dürfen
 int y = x+1;
 
-String dummyString = "2a;3c;1a;3a;";
 String userString = "";
+String dummyString = "2a;3c;1a;";
 
 //Rundenzähler
 int level = 0;
@@ -123,7 +123,7 @@ void readMatrix() {
 void ledStart() {
   //drei Hauptbuttons
   int simonsaysStart = keys[0][3];
- // int tiktactoeStart = keys[1][3];
+  int tiktactoeStart = keys[1][3];
   int sendButton = keys[2][3];
 
   if (simonsaysStart == 0) {
@@ -265,7 +265,7 @@ void inputButtonSequence() {
     }
   */
 
-  if (keys[0][0] == 0 && key1previousState == 0) {
+  /*if (keys[0][0] == 0 && key1previousState == 0) {
     key1previousState = 1;
     leds[0] = CRGB::Purple;
     FastLED.show();
@@ -275,14 +275,14 @@ void inputButtonSequence() {
     /*Serial.print("key1previousState:");
     Serial.println(keys[0][0]);
     Serial.println(key1previousState);*/
-  }
+  /*}
 
   if (keys[0][0] == 1 && key1previousState == 1) {
     key1previousState = 0;
     /*Serial.print("asdrgadfg:");
     Serial.println(keys[0][0]);
     Serial.println(key1previousState);*/
-  }
+  /*}
 
   if (keys[1][0] == 0 && key2previousState == 0) {
     key2previousState = 1;
@@ -379,7 +379,7 @@ void inputButtonSequence() {
 
   if (keys[2][2] == 1 && key9previousState == 1) {
     key9previousState = 0;
-  }
+  }*/
 
     Serial.print("inputString: ");
     Serial.println(inputString);
@@ -387,7 +387,7 @@ void inputButtonSequence() {
     Serial.println(x);
 }
 
-/////////////////////////////////////////////////////////Vergleich von dummyString und userString
+////////////////////////////////////////////////////////Vergleich von dummyString und userString
 void SequenceComparison() {
     if (keys[0][0] == 0 && key1previousState == 0) {
     key1previousState = 1;
@@ -499,19 +499,22 @@ void SequenceComparison() {
     key9previousState = 0;
   }
 
-  if (userString = dummyString) {
-    leds[10] = CRGB::Green;
-  }
-
-  if (userString != dummyString) {
-    leds[10] = CRGB::Red;
-  }
-  
   Serial.print("userString: ");
   Serial.println(userString);
-  
   Serial.print("dummyString: ");
   Serial.println(dummyString);
+
+  if(userString != dummyString) {
+    for (int i=0; i<=8; i++) {
+      leds[i] = CRGB::Blue;
+      FastLED.show();
+    }
+  } else {
+    for (int i=0; i<=8; i++) {
+      leds[i] = CRGB::Green;
+      FastLED.show();
+    }
+  }
   
 }
 
