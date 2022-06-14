@@ -29,7 +29,7 @@ String inputString = "";
 //wv Knöpfe gedrückt wurden
 int x = 0;
 //wv Knöpfe gedrückt werden dürfen
-int y = x+1;
+int y = x + 1;
 
 String userString = "";
 String dummyString = "2a;3c;1a;";
@@ -265,7 +265,7 @@ void inputButtonSequence() {
     }
   */
 
-  /*if (keys[0][0] == 0 && key1previousState == 0) {
+  if (keys[0][0] == 0 && key1previousState == 0) {
     key1previousState = 1;
     leds[0] = CRGB::Purple;
     FastLED.show();
@@ -273,16 +273,16 @@ void inputButtonSequence() {
     x += 1;                     //gedrückte Buttons hochzählen bei jedem Mal drücken.
     delay(100);
     /*Serial.print("key1previousState:");
-    Serial.println(keys[0][0]);
-    Serial.println(key1previousState);*/
-  /*}
+      Serial.println(keys[0][0]);
+      Serial.println(key1previousState);*/
+  }
 
   if (keys[0][0] == 1 && key1previousState == 1) {
     key1previousState = 0;
     /*Serial.print("asdrgadfg:");
-    Serial.println(keys[0][0]);
-    Serial.println(key1previousState);*/
-  /*}
+      Serial.println(keys[0][0]);
+      Serial.println(key1previousState);*/
+  }
 
   if (keys[1][0] == 0 && key2previousState == 0) {
     key2previousState = 1;
@@ -379,143 +379,31 @@ void inputButtonSequence() {
 
   if (keys[2][2] == 1 && key9previousState == 1) {
     key9previousState = 0;
-  }*/
+  }
 
-    Serial.print("inputString: ");
-    Serial.println(inputString);
-    Serial.print("Anzahl Buttons: ");
-    Serial.println(x);
+  Serial.print("inputString: ");
+  Serial.println(inputString);
+  Serial.print("Anzahl Buttons: ");
+  Serial.println(x);
 }
 
 ////////////////////////////////////////////////////////Vergleich von dummyString und userString
 void SequenceComparison() {
-    if (keys[0][0] == 0 && key1previousState == 0) {
-    key1previousState = 1;
-    leds[0] = CRGB::Purple;
-    FastLED.show();
-    userString += "1a;";
-    x += 1;
-    delay(100);
-  }
-
-  if (keys[0][0] == 1 && key1previousState == 1) {
-    key1previousState = 0;
-  }
-
-  if (keys[1][0] == 0 && key2previousState == 0) {
-    key2previousState = 1;
-    leds[1] = CRGB::Purple;
-    FastLED.show();
-    userString += "2a;";
-    x += 1;
-  }
-
-  if (keys[1][0] == 1 && key2previousState == 1) {
-    key2previousState = 0;
-  }
-
-  if (keys[2][0] == 0 && key3previousState == 0) {
-    key3previousState = 1;
-    leds[2] = CRGB::Purple;
-    FastLED.show();
-    userString += "3a;";
-    x += 1;
-  }
-
-  if (keys[2][0] == 1 && key3previousState == 1) {
-    key3previousState = 0;
-  }
-
-  if (keys[0][1] == 0 && key4previousState == 0) {
-    key4previousState = 1;
-    leds[5] = CRGB::Purple;
-    FastLED.show();
-    userString += "1b;";
-    x += 1;
-  }
-
-  if (keys[0][1] == 1 && key4previousState == 1) {
-    key4previousState = 0;
-  }
-
-  if (keys[1][1] == 0 && key5previousState == 0) {
-    key5previousState = 1;
-    leds[4] = CRGB::Purple;
-    FastLED.show();
-    userString += "2b;";
-    x += 1;
-  }
-
-  if (keys[1][1] == 1 && key5previousState == 1) {
-    key5previousState = 0;
-  }
-
-  if (keys[2][1] == 0 && key6previousState == 0) {
-    key6previousState = 1;
-    leds[3] = CRGB::Purple;
-    FastLED.show();
-    userString += "3b;";
-    x += 1;
-  }
-
-  if (keys[2][1] == 1 && key6previousState == 1) {
-    key6previousState = 0;
-  }
-
-  if (keys[0][2] == 0 && key7previousState == 0) {
-    key7previousState = 1;
-    leds[6] = CRGB::Purple;
-    FastLED.show();
-    userString += "1c;";
-    x += 1;
-  }
-
-  if (keys[0][2] == 1 && key7previousState == 1) {
-    key7previousState = 0;
-  }
-
-
-  if (keys[1][2] == 0 && key8previousState == 0) {
-    key8previousState = 1;
-    leds[7] = CRGB::Purple;
-    FastLED.show();
-    userString += "2c;";
-    x += 1;
-  }
-
-  if (keys[1][2] == 1 && key8previousState == 1) {
-    key8previousState = 0;
-  }
-
-  if (keys[2][2] == 0 && key9previousState == 0) {
-    key9previousState = 1;
-    leds[8] = CRGB::Purple;
-    FastLED.show();
-    userString += "3c;";
-    x += 1;
-  }
-
-  if (keys[2][2] == 1 && key9previousState == 1) {
-    key9previousState = 0;
-  }
-
-  Serial.print("userString: ");
-  Serial.println(userString);
   Serial.print("dummyString: ");
   Serial.println(dummyString);
 
-  if(userString != dummyString) {
-    for (int i=0; i<=8; i++) {
-      leds[i] = CRGB::Blue;
-      FastLED.show();
-    }
-  } else {
-    for (int i=0; i<=8; i++) {
+  if (inputString == dummyString) {
+    for (int i = 0; i <= 8; i++) {
       leds[i] = CRGB::Green;
       FastLED.show();
     }
+  } else {
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Red;
+      FastLED.show();
+    }
   }
-  
+
 }
 
 //Runden mitzählen und jede Runde darf ein weiterer Button ausgewählt werden.
