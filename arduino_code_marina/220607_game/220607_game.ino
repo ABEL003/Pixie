@@ -5,6 +5,9 @@
 
 CRGB leds[NUM_LEDS];
 
+String inputArray[20];
+int arrayCounter = 0;
+
 //timer 5s
 unsigned long startTime;
 boolean timing;
@@ -392,19 +395,34 @@ void SequenceComparison() {
   Serial.print("dummyString: ");
   Serial.println(dummyString);
 
-  if (inputString == dummyString) {
-    for (int i = 0; i <= 8; i++) {
-      leds[i] = CRGB::Green;
-      FastLED.show();
+  int sendButton = keys[2][3];
+  int sendButtonState;
+  int sendButtonPreviousState = 0;
+
+  if (sendButton == 0 && sendButtonPreviousState == 0) {
+    sendButtonPreviousState = 1;
+    sendButtonState = 1;
+    if (sendButtonState = 1) {
+      if (inputString == dummyString) {
+        for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Green;
+          FastLED.show();
+        }
+      }
+      else {
+        for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Red;
+          FastLED.show();
+        }
+      }
     }
-  } else {
-    for (int i = 0; i <= 8; i++) {
-      leds[i] = CRGB::Red;
-      FastLED.show();
+    if (sendButton == 0 && sendButtonPreviousState == 1) {
+      sendButtonPreviousState = 0;
+      sendButtonState = 0;
     }
   }
-
 }
+
 
 //Runden mitzählen und jede Runde darf ein weiterer Button ausgewählt werden.
 
@@ -423,4 +441,21 @@ void loop() {
   inputButtonSequence();
 
   SequenceComparison();
+
+  splitCommand(dummyString, ';');
+  for (int i = 0; i < arrayCounter; i++) {
+    Serial.println(inputArray[i]);
+  }
+}
+
+void splitCommand(String text, char splitChar) {
+  int r = 0;
+  arrayCounter = 0;
+  for (int i = 0; i < text.length(); i++) {
+    if (text.charAt(i) == splitChar) {
+      inputArray[arrayCounter] = text.substring(r, i);
+      r = (i + 1);
+      arrayCounter++;
+    }
+  }
 }
