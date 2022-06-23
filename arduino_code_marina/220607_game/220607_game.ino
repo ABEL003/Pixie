@@ -31,11 +31,13 @@ int ledChangeStateZero = 0;
 String inputString = "";
 //wv Knöpfe gedrückt wurden
 int x = 0;
+int xSendingLength = 0;
+int xInputLength = 0;
 //wv Knöpfe gedrückt werden dürfen
 int y = x + 1;
 
 String userString = "";
-String dummyString = "2a;3c;1a;";
+String sendingString = "";
 
 //Rundenzähler
 int level = 0;
@@ -67,6 +69,14 @@ int key8previousState = 0;
 
 int key9state;
 int key9previousState = 0;
+
+//State for wrong sequence
+int wrongSequence = 0;
+
+
+
+String checkString = "";
+char stringComplete ="";
 
 
 void setup() {
@@ -129,7 +139,7 @@ void ledStart() {
   int tiktactoeStart = keys[1][3];
   int sendButton = keys[2][3];
 
-  if (simonsaysStart == 0) {
+  if (simonsaysStart == 0 || wrongSequence == 1) {
     ledStartState = ledChangeState;
     Serial.println("ledStart");
     Serial.print("ledStartState zuerst: ");
@@ -242,8 +252,12 @@ void ledStart() {
 
     x = 0;
     inputString = "";
-    userString = "";
     level = 0;
+    wrongSequence = 0;
+  }
+
+  if (simonsaysStart == 0) {
+    sendingString = "";
   }
 
   if (timing == true)
@@ -273,7 +287,8 @@ void inputButtonSequence() {
     leds[0] = CRGB::Purple;
     FastLED.show();
     inputString += "1a;";       //"Name" des Knopfes, der gedrückt wurde wird dem String zugefügt.
-    x += 1;                     //gedrückte Buttons hochzählen bei jedem Mal drücken.
+    //x += 1;                     //gedrückte Buttons hochzählen bei jedem Mal drücken.
+    xInputLength += 1;
     delay(100);
     /*Serial.print("key1previousState:");
       Serial.println(keys[0][0]);
@@ -292,7 +307,8 @@ void inputButtonSequence() {
     leds[1] = CRGB::Purple;
     FastLED.show();
     inputString += "2a;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[1][0] == 1 && key2previousState == 1) {
@@ -304,7 +320,8 @@ void inputButtonSequence() {
     leds[2] = CRGB::Purple;
     FastLED.show();
     inputString += "3a;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[2][0] == 1 && key3previousState == 1) {
@@ -316,7 +333,8 @@ void inputButtonSequence() {
     leds[5] = CRGB::Purple;
     FastLED.show();
     inputString += "1b;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[0][1] == 1 && key4previousState == 1) {
@@ -328,7 +346,8 @@ void inputButtonSequence() {
     leds[4] = CRGB::Purple;
     FastLED.show();
     inputString += "2b;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[1][1] == 1 && key5previousState == 1) {
@@ -340,7 +359,8 @@ void inputButtonSequence() {
     leds[3] = CRGB::Purple;
     FastLED.show();
     inputString += "3b;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[2][1] == 1 && key6previousState == 1) {
@@ -352,7 +372,8 @@ void inputButtonSequence() {
     leds[6] = CRGB::Purple;
     FastLED.show();
     inputString += "1c;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[0][2] == 1 && key7previousState == 1) {
@@ -365,7 +386,8 @@ void inputButtonSequence() {
     leds[7] = CRGB::Purple;
     FastLED.show();
     inputString += "2c;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[1][2] == 1 && key8previousState == 1) {
@@ -377,47 +399,96 @@ void inputButtonSequence() {
     leds[8] = CRGB::Purple;
     FastLED.show();
     inputString += "3c;";
-    x += 1;
+    //x += 1;
+    xInputLength += 1;
   }
 
   if (keys[2][2] == 1 && key9previousState == 1) {
     key9previousState = 0;
   }
 
-  Serial.print("inputString: ");
-  Serial.println(inputString);
-  Serial.print("Anzahl Buttons: ");
-  Serial.println(x);
+  /*Serial.print("inputString: ");
+    Serial.println(inputString);
+    //Serial.print("Anzahl Buttons: ");
+    //Serial.println(x);
+    Serial.print("xInputLength: ");
+    Serial.println(xInputLength);
+    Serial.print("xSendingLength: ");
+    Serial.println(xSendingLength);*/
 }
 
-////////////////////////////////////////////////////////Vergleich von dummyString und userString
+////////////////////////////////////////////////////////Vergleich von inputString und sendingString
+
+
+int sendButtonPreviousState = 0;
+
+
+/* 
+ 
+ A:
+ Eingabe: inputString = "1,2,"
+ Send: inputString to B
+
+ B:
+ Empfängt: checkString = "1,2,"
+ Eingabe: inputString = "1,"
+ Check: Eingabe Nr. 1 mit 1. Wert aus dem String
+ Eingabe: inputString = "1,2,"
+ Check: Eingabe Nr. 2 mit 2. Wert aus dem String
+
+ Eingabe neuer Wert: inputString = "1,2,4,"
+ Send: inputString to A
+ 
+ 
+ 
+ 
+*/
+
 void SequenceComparison() {
-  Serial.print("dummyString: ");
-  Serial.println(dummyString);
 
   int sendButton = keys[2][3];
   int sendButtonState;
-  int sendButtonPreviousState = 0;
 
   if (sendButton == 0 && sendButtonPreviousState == 0) {
+    Serial.println("Sending: ");
+    Serial.println(inputString);
+    sendingString = inputString;                              //sendingString wird gefüllt mit inputString
+    xSendingLength = xInputLength;
+    inputString = "";                                         //inputString wird geleert
+    xInputLength = 0;
+    
     sendButtonPreviousState = 1;
     sendButtonState = 1;
-    if (sendButtonState = 1) {
-      if (inputString == dummyString) {
+
+    Serial.print(xInputLength); Serial.print(" - ");
+    Serial.println(xSendingLength);
+
+    if (xInputLength == xSendingLength) {
+      if (inputString == sendingString) {
         for (int i = 0; i <= 8; i++) {
           leds[i] = CRGB::Green;
           FastLED.show();
         }
+        delay(1000);
+        for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Black;
+          FastLED.show();
+        }
+
+        
       }
       else {
         for (int i = 0; i <= 8; i++) {
           leds[i] = CRGB::Red;
           FastLED.show();
         }
+        delay(1000);
+        wrongSequence = 1;
       }
     }
+
     if (sendButton == 0 && sendButtonPreviousState == 1) {
-      sendButtonPreviousState = 0;
+      //sendButtonPreviousState = 0;
       sendButtonState = 0;
     }
   }
@@ -442,10 +513,18 @@ void loop() {
 
   SequenceComparison();
 
-  splitCommand(dummyString, ';');
-  for (int i = 0; i < arrayCounter; i++) {
-    Serial.println(inputArray[i]);
+
+  if (stringComplete == 'E') {  
+
+    
+    checkString = "";
+    stringComplete = "";
   }
+
+  /*splitCommand(sendingString, ';');
+    for (int i = 0; i < arrayCounter; i++) {
+    Serial.println(inputArray[i]);
+    }*/
 }
 
 void splitCommand(String text, char splitChar) {
@@ -457,5 +536,18 @@ void splitCommand(String text, char splitChar) {
       r = (i + 1);
       arrayCounter++;
     }
+  }
+}
+
+
+void serialEvent() {
+  while (Serial.available()) {    //solange in schleife, wie daten reinkommen
+    char inChar = (char)Serial.read();    //da kommt alles rein
+
+    if(inChar == 'E') {           //wenn E am Ende, dann ende
+      stringComplete = 'E';
+    } else {
+      checkString += inChar;
+    }                             //danach (wieder) zur loop
   }
 }
