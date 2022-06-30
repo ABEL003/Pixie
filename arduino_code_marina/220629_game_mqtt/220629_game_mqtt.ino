@@ -445,6 +445,8 @@ void serialEvent() {                          // oder auch: void receive() {
       checkString += inChar;
     }                                           //danach (wieder) zur loop
   }
+//  Serial.print("checkString: ");
+//  Serial.println(checkString);
 }
 
 
@@ -496,23 +498,20 @@ void displayMatrix() {
 //  int key9state;
 //  int key9previousState = 0;
 
-  if (inputArray[1] == "1a" && keys[1][3] == 0) {    //Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten.
-    Serial.print("show button 1a");
+//if (keys[1][3] == 0) {   // Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten und wieder aus gehen.
+if (inputArray[0] == "1a" && keys[2][3] == 0) {   // Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten und wieder aus gehen.
+    Serial.print("inputString: ");
+    Serial.println(inputString);
+    Serial.println("show led 1a");
     leds[0] = CRGB::Blue;
     FastLED.show();
     delay(1000);
     leds[0] = CRGB::Black;
     FastLED.show();
-    /*Serial.print("key1previousState:");
-      Serial.println(keys[0][0]);
-      Serial.println(key1previousState);*/
   }
 
 //  if (keys[0][0] == 1 && key1previousState == 1) {
 //    key1previousState = 0;
-//    /*Serial.print("asdrgadfg:");
-//      Serial.println(keys[0][0]);
-//      Serial.println(key1previousState);*/
 //  }
 }
 
@@ -542,7 +541,7 @@ void addElement() {
 
 
 
-int sendButtonPreviousState = 0;
+/*int sendButtonPreviousState = 0;
 
 void SequenceComparison() {
 
@@ -551,8 +550,8 @@ void SequenceComparison() {
 
   if (sendButton == 0 && sendButtonPreviousState == 0) {
 
-    /*xSendingLength = xInputLength;
-      xInputLength = 0;*/
+//    xSendingLength = xInputLength;
+//    xInputLength = 0;
 
     sendButtonPreviousState = 1;
     sendButtonState = 1;
@@ -589,7 +588,7 @@ void SequenceComparison() {
       sendButtonState = 0;
     }
   }
-}
+}*/
 
 
 void loop() {
@@ -602,7 +601,18 @@ void loop() {
 
   inputButtonSequence();
 
-  //SequenceComparison();
+  serialEvent();
+
+  //stringToArray(String text, char splitChar);         // ???
+
+  displayMatrix();
+
+  //comparison();
+
+  //addElement();
+
+
+  //SequenceComparison();                             // delete.
 
 
   if (stringComplete == 'E') {
