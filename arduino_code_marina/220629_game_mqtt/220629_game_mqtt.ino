@@ -419,6 +419,12 @@ void inputButtonSequence() {
     if (sendButton == 0) {
       Serial.println(inputString);
       stateSendButton = sendButton;
+      
+      // Alle LEDs aus bei senden
+      for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Black;
+          FastLED.show();
+        }
     }
 
 
@@ -452,17 +458,62 @@ void stringToArray(String text, char splitChar) {   //splitCommand ???
       arrayCounter++;
     }
   }
-  Serial.println(inputArray[0]);
-  Serial.println(inputArray[1]);
-  Serial.println(inputArray[2]);
-  Serial.println(inputArray[3]);
-  Serial.println(inputArray[4]);
-  Serial.println(inputArray[5]);
+//  Serial.println(inputArray[0]);
+//  Serial.println(inputArray[1]);
+//  Serial.println(inputArray[2]);
+//  Serial.println(inputArray[3]);
+//  Serial.println(inputArray[4]);
+//  Serial.println(inputArray[5]);
 }
 
 
 void displayMatrix() {
+  
+//  int key1state;
+//  int key1previousState = 0;
+//  
+//  int key2state;
+//  int key2previousState = 0;
+//  
+//  int key3state;
+//  int key3previousState = 0;
+//  
+//  int key4state;
+//  int key4previousState = 0;
+//  
+//  int key5state;
+//  int key5previousState = 0;
+//  
+//  int key6state;
+//  int key6previousState = 0;
+//  
+//  int key7state;
+//  int key7previousState = 0;
+//  
+//  int key8state;
+//  int key8previousState = 0;
+//  
+//  int key9state;
+//  int key9previousState = 0;
 
+  if (inputArray[1] == "1a" && keys[1][3] == 0) {    //Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten.
+    Serial.print("show button 1a");
+    leds[0] = CRGB::Blue;
+    FastLED.show();
+    delay(1000);
+    leds[0] = CRGB::Black;
+    FastLED.show();
+    /*Serial.print("key1previousState:");
+      Serial.println(keys[0][0]);
+      Serial.println(key1previousState);*/
+  }
+
+//  if (keys[0][0] == 1 && key1previousState == 1) {
+//    key1previousState = 0;
+//    /*Serial.print("asdrgadfg:");
+//      Serial.println(keys[0][0]);
+//      Serial.println(key1previousState);*/
+//  }
 }
 
 
