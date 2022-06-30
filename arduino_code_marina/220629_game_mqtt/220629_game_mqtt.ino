@@ -419,12 +419,12 @@ void inputButtonSequence() {
     if (sendButton == 0) {
       Serial.println(inputString);
       stateSendButton = sendButton;
-      
+
       // Alle LEDs aus bei senden
       for (int i = 0; i <= 8; i++) {
-          leds[i] = CRGB::Black;
-          FastLED.show();
-        }
+        leds[i] = CRGB::Black;
+        FastLED.show();
+      }
     }
 
 
@@ -445,8 +445,8 @@ void serialEvent() {                          // oder auch: void receive() {
       checkString += inChar;
     }                                           //danach (wieder) zur loop
   }
-//  Serial.print("checkString: ");
-//  Serial.println(checkString);
+  //  Serial.print("checkString: ");
+  //  Serial.println(checkString);
 }
 
 
@@ -460,59 +460,40 @@ void stringToArray(String text, char splitChar) {   //splitCommand ???
       arrayCounter++;
     }
   }
-//  Serial.println(inputArray[0]);
-//  Serial.println(inputArray[1]);
-//  Serial.println(inputArray[2]);
-//  Serial.println(inputArray[3]);
-//  Serial.println(inputArray[4]);
-//  Serial.println(inputArray[5]);
+//    Serial.println(inputArray[0]);
+//    Serial.println(inputArray[1]);
+//    Serial.println(inputArray[2]);
+//    Serial.println(inputArray[3]);
+//    Serial.println(inputArray[4]);
+//    Serial.println(inputArray[5]);
 }
 
 
+String pinOut[9][2] =
+{
+  {"1a", "0"},
+  {"1b", "5"},
+  {"1c", "6"},
+  {"2a", "1"},
+  {"2b", "4"},
+  {"2c", "7"},
+  {"3a", "2"},
+  {"3b", "3"},
+  {"3c", "8"},
+};
+
 void displayMatrix() {
-  
-//  int key1state;
-//  int key1previousState = 0;
-//  
-//  int key2state;
-//  int key2previousState = 0;
-//  
-//  int key3state;
-//  int key3previousState = 0;
-//  
-//  int key4state;
-//  int key4previousState = 0;
-//  
-//  int key5state;
-//  int key5previousState = 0;
-//  
-//  int key6state;
-//  int key6previousState = 0;
-//  
-//  int key7state;
-//  int key7previousState = 0;
-//  
-//  int key8state;
-//  int key8previousState = 0;
-//  
-//  int key9state;
-//  int key9previousState = 0;
-
-//if (keys[1][3] == 0) {   // Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten und wieder aus gehen.
-if (inputArray[0] == "1a" && keys[2][3] == 0) {   // Wenn Array Stelle 1 = 1a, dann soll led 1 (led[0]) leuchten und wieder aus gehen.
-    Serial.print("inputString: ");
-    Serial.println(inputString);
-    Serial.println("show led 1a");
-    leds[0] = CRGB::Blue;
-    FastLED.show();
-    delay(1000);
-    leds[0] = CRGB::Black;
-    FastLED.show();
+  for (int i = 0; i <= arrayCounter; i++) {       // Durchzählung, ob der inputArray gleich einer der vorderen Stelle des pinOut (zweidimensionalen) Arrays ist.
+    for (int j = 0; j < 9; j++) {
+      if (pinOut[j][0] == inputArray[i]) {        // Abfrage, wenn die erste Stelle vom pinOut gleich der Stelle des inputArrays ist, wird der Pin der LED ausgegeben.
+        String ledPin = pinOut[j][1];
+        Serial.println(ledPin);
+        leds[j] = CRGB::Blue;
+        FastLED.show();
+        delay(1000);
+      }
+    }
   }
-
-//  if (keys[0][0] == 1 && key1previousState == 1) {
-//    key1previousState = 0;
-//  }
 }
 
 
@@ -543,15 +524,15 @@ void addElement() {
 
 /*int sendButtonPreviousState = 0;
 
-void SequenceComparison() {
+  void comparison() {
 
   int sendButton = keys[2][3];
   int sendButtonState;
 
   if (sendButton == 0 && sendButtonPreviousState == 0) {
 
-//    xSendingLength = xInputLength;
-//    xInputLength = 0;
+  //    xSendingLength = xInputLength;
+  //    xInputLength = 0;
 
     sendButtonPreviousState = 1;
     sendButtonState = 1;
@@ -588,11 +569,11 @@ void SequenceComparison() {
       sendButtonState = 0;
     }
   }
-}*/
+  }*/
 
 
 void loop() {
-  
+
   readMatrix();
 
   //printMatrix();
