@@ -5,10 +5,8 @@
 
 CRGB leds[NUM_LEDS];
 
-String checkArray[20];
 String inputArray[20];
 int arrayCounter = 0;
-int inputArrayCounter = 0;
 
 //timer 5s
 unsigned long startTime;
@@ -115,23 +113,6 @@ void readMatrix() {
     pinMode(curCol, INPUT);
   }
 }
-
-
-/*void printMatrix() {
-  for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-
-    Serial.print(F("R_"));
-    Serial.print(rowIndex + 1); Serial.print(F(": ")); Serial.print("\t");
-
-    for (int colIndex = 0; colIndex < colCount; colIndex++) {
-      Serial.print(keys[colIndex][rowIndex]);
-      if (colIndex < colCount)
-        Serial.print("\t");
-    }
-    Serial.println("");
-  }
-  Serial.println("");
-  }*/
 
 
 void ledStart() {
@@ -268,7 +249,6 @@ void ledStart() {
 
 
 int previousSendButtonState = 0;
-
 void inputButtonSequence() {
 
   int sendButton = keys[2][3];
@@ -390,221 +370,27 @@ void inputButtonSequence() {
     key9previousState = 0;
   }
 
-  //Serial.println(sendButton);
-
   //send inputString to Server
   if (sendButton == previousSendButtonState) {
     if (sendButton == 0) {
       Serial.println(inputString);
       stateSendButton = sendButton;
 
-      // Alle LEDs aus bei senden
       for (int i = 0; i <= 8; i++) {
         leds[i] = CRGB::Black;
         FastLED.show();
       }
     }
-
-
   }
   previousSendButtonState = sendButton;
 }
-
-
-void serialEvent() {                           //Empfangen vom checkString
-  while (Serial.available()) {                  //solange in schleife, wie Daten reinkommen
-    char inChar = (char)Serial.read();          //in inChar wird z.B. "1a;" und dann "1a; 3b;" usw. gespeichert.
-
-    if (inChar == 'E') {                        //wenn E am Ende, dann ist der String zu ende.
-      stringComplete = 'E';
-      stringToArray(checkString, ';');
-
-    } else {
-      checkString += inChar;
-    }
-  }
-  //  Serial.print("checkString: ");
-  //  Serial.println(checkString);
-}
-
-
-void stringToArray(String text, char splitChar) {   //Der String wird geteilt (von "1a; 3b;" zu "1a" und "3b") und die Werte in das checkArray gepackt.
-  int r = 0;
-  arrayCounter = 0;
-  for (int i = 0; i < text.length(); i++) {
-    if (text.charAt(i) == splitChar) {
-      checkArray[arrayCounter] = text.substring(r, i);
-      r = (i + 1);
-      arrayCounter++;
-    }
-  }
-//    Serial.println(checkArray[0]);
-//    Serial.println(checkArray[1]);
-//    Serial.println(checkArray[2]);
-//    Serial.println(checkArray[3]);
-//    Serial.println(checkArray[4]);
-//    Serial.println(checkArray[5]);
-}
-
-
-String pinOut[9][2] =
-{
-  {"1a", "0"}, //0
-  {"1b", "7"}, //5
-  {"1c", "2"}, //6
-  {"2a", "5"}, //1
-  {"2b", "4"}, //4
-  {"2c", "3"}, //7
-  {"3a", "6"}, //2
-  {"3b", "1"}, //3
-  {"3c", "8"}, //8
-};
-
-void displayMatrix() {
-  for (int i = 0; i <= arrayCounter; i++) {       //Durchzählung, ob der checkArray gleich einer der vorderen Stelle des pinOut (zweidimensionalen) Arrays ist.
-    for (int j = 0; j < 9; j++) {
-      if (pinOut[j][0] == checkArray[i]) {        //Abfrage, wenn die erste Stelle vom pinOut gleich der Stelle des checkArrays ist, wird der Pin der LED ausgegeben.
-        String ledPin = pinOut[j][1];
-        Serial.println(ledPin);
-        leds[j] = CRGB::Blue;
-        FastLED.show();
-        delay(1000);
-      }
-    }
-  }
-}
-
-
-void inputStringToArray(String text, char inputSplitChar) {     //inputString to inputArray
-  int r = 0;
-  inputArrayCounter = 0;
-  for (int i = 0; i < text.length(); i++) {
-    if (text.charAt(i) == inputSplitChar) {
-      inputArray[inputArrayCounter] = text.substring(r, i);
-      r = (i + 1);
-      inputArrayCounter++;
-    }
-  }
-  Serial.println(inputArray[1]);
-}
-
-
-void comparison() {               //Comparing inputString and checkArray
-  for (int i = 0; i <= inputArrayCounter; i++) {       //Durchzählung, ob der checkArray gleich einer der vorderen Stelle des pinOut (zweidimensionalen) Arrays ist.
-    for (int j = 0; j <= arrayCounter; j++) {
-      if (checkArray == inputArray) {        //Abfrage, wenn die erste Stelle vom pinOut gleich der Stelle des checkArrays ist, wird der Pin der LED ausgegeben.
-        leds[0] = CRGB::Green;
-        FastLED.show();
-        delay(1000);
-      }
-    }
-  }
-}
-
-
-void addElement() {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*int sendButtonPreviousState = 0;
-
-  void comparison() {
-
-  int sendButton = keys[2][3];
-  int sendButtonState;
-
-  if (sendButton == 0 && sendButtonPreviousState == 0) {
-
-  //    xSendingLength = xInputLength;
-  //    xInputLength = 0;
-
-    sendButtonPreviousState = 1;
-    sendButtonState = 1;
-
-    Serial.print(xInputLength); Serial.print(" - ");
-    Serial.println(xSendingLength);
-
-    if (xInputLength == xSendingLength) {
-      if (inputString == sendingString) {
-        for (int i = 0; i <= 8; i++) {
-          leds[i] = CRGB::Green;
-          FastLED.show();
-        }
-        delay(1000);
-        for (int i = 0; i <= 8; i++) {
-          leds[i] = CRGB::Black;
-          FastLED.show();
-        }
-
-
-      }
-      else {
-        for (int i = 0; i <= 8; i++) {
-          leds[i] = CRGB::Red;
-          FastLED.show();
-        }
-        delay(1000);
-        wrongSequence = 1;
-      }
-    }
-
-    if (sendButton == 0 && sendButtonPreviousState == 1) {
-      //sendButtonPreviousState = 0;
-      sendButtonState = 0;
-    }
-  }
-  }*/
 
 
 void loop() {
 
   readMatrix();
 
-  //printMatrix();
-
   ledStart();
 
   inputButtonSequence();
-
-  serialEvent();
-
-  //stringToArray(String text, char splitChar);         // ???
-
-  displayMatrix();
-
-  //comparison();
-
-  //addElement();
-
-
-  //SequenceComparison();                             // delete.
-
-
-  if (stringComplete == 'E') {
-
-
-    checkString = "";
-    stringComplete = "";
-  }
-
-  /*splitCommand(checkString, ';');
-    for (int i = 0; i < arrayCounter; i++) {
-    Serial.println(checkArray[i]);
-    }*/
 }
