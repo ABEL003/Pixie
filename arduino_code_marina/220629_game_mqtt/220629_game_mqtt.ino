@@ -277,7 +277,7 @@ int previousSendButtonState = 0;
 
 void inputButtonSequence() {
 
-  int sendButton = keys[2][3]; // 1
+  int sendButton = keys[2][3];
   int stateSendButton = 0;
 
   /*if (ledStartState == 0) {
@@ -433,24 +433,24 @@ void inputButtonSequence() {
 }
 
 
-void serialEvent() {                          // oder auch: void receive() {
-  while (Serial.available()) {                  //solange in schleife, wie daten reinkommen
-    char inChar = (char)Serial.read();          //da kommt alles rein
+void serialEvent() {                           //Empfangen vom checkString
+  while (Serial.available()) {                  //solange in schleife, wie Daten reinkommen
+    char inChar = (char)Serial.read();          //in inChar wird z.B. "1a;" und dann "1a; 3b;" usw. gespeichert.
 
-    if (inChar == 'E') {                        //wenn E am Ende, dann ende
+    if (inChar == 'E') {                        //wenn E am Ende, dann ist der String zu ende.
       stringComplete = 'E';
       stringToArray(checkString, ';');
 
     } else {
       checkString += inChar;
-    }                                           //danach (wieder) zur loop
+    }
   }
   //  Serial.print("checkString: ");
   //  Serial.println(checkString);
 }
 
 
-void stringToArray(String text, char splitChar) {   //splitCommand ???
+void stringToArray(String text, char splitChar) {   //Der String wird geteilt (von "1a; 3b;" zu "1a" und "3b") und die Werte in das inputArray gepackt.
   int r = 0;
   arrayCounter = 0;
   for (int i = 0; i < text.length(); i++) {
@@ -471,15 +471,15 @@ void stringToArray(String text, char splitChar) {   //splitCommand ???
 
 String pinOut[9][2] =
 {
-  {"1a", "0"},
-  {"1b", "5"},
-  {"1c", "6"},
-  {"2a", "1"},
-  {"2b", "4"},
-  {"2c", "7"},
-  {"3a", "2"},
-  {"3b", "3"},
-  {"3c", "8"},
+  {"1a", "0"}, //0
+  {"1b", "0"}, //5
+  {"1c", "0"}, //6
+  {"2a", "0"}, //1
+  {"2b", "0"}, //4
+  {"2c", "0"}, //7
+  {"3a", "0"}, //2
+  {"3b", "0"}, //3
+  {"3c", "0"}, //8
 };
 
 void displayMatrix() {
