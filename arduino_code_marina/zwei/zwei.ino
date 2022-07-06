@@ -121,7 +121,7 @@ void ledStart() {
   int receiveButton = keys[1][3];
   int sendButton = keys[2][3];
 
-  if (simonsaysStart == 0 || wrongSequence == 1) {
+  if (simonsaysStart == 0) {
     ledStartState = ledChangeState;
     leds[2] = CRGB::Purple;
     delay(50);
@@ -459,6 +459,7 @@ void displayMatrix() {
   int receiveButton = keys[1][3];
 
   if (receiveButton == 0) {
+    inputString = "";
     leds[7] = CRGB::Blue;
     FastLED.show();
     delay(500);
@@ -502,12 +503,12 @@ void comparison() {
     delay(10);
   }
 
-  if (keys[2][0] == 1 && previousState == 1) {
+  if (keys[0][1] == 1 && previousState == 1) {
     previousState = 0;
   }
 
   //Falsche Reihenfolge
-  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[2][0] == 0 || keys[1][1] == 0 || keys[0][2] == 0 || keys[2][2] == 0 && previousState == 0) {
+  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[2][0] == 0 || keys[1][1] == 0 || keys[2][2] == 0 && previousState == 0) {
     previousState = 1;
     for (int i = 0; i <= 8; i++) {
       leds[i] = CRGB::Red;
@@ -518,11 +519,11 @@ void comparison() {
       leds[i] = CRGB::Black;
       FastLED.show();
     }
-    delay(1000);
+    delay(800);
     wrongSequence = 1;
   }
 
-  if (keys[2][0] == 1 && previousState == 1) {
+  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[2][0] == 0 || keys[1][1] == 0 || keys[2][2] == 0 && previousState == 1) {
     previousState = 0;
   }
 
@@ -548,6 +549,8 @@ void comparison() {
     leds[5] = CRGB::Black;
     FastLED.show();
     delay(500);
+    
+    wrongSequence = 0;
   }
 }
 
@@ -628,31 +631,16 @@ void loop() {
 
   readMatrix();
 
-  //printMatrix();
-
   ledStart();
 
   inputButtonSequence();
 
   serialEvent();
 
-  //stringToArray(String text, char splitChar);         // ???
-
   comparison();
-
-  //addElement();
-
-
-  //SequenceComparison();                             // delete.
-
 
   if (stringComplete == 'E') {
     checkString = "";
     stringComplete = "";
   }
-
-  /*splitCommand(checkString, ';');
-    for (int i = 0; i < arrayCounter; i++) {
-    Serial.println(inputArray[i]);
-    }*/
 }

@@ -415,6 +415,122 @@ void inputButtonSequence() {
 }
 
 
+int previousReceiveButtonState = 0;
+void displayMatrix() {
+  int receiveButton = keys[1][3];
+
+  if (receiveButton == 0) {
+    inputString = "";
+    leds[7] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[7] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[3] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[3] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[5] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[5] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[6] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[6] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+  }
+}
+
+
+void comparison() {
+  int previousState = 0;
+
+  //Richtige Reihenfolge
+  if (keys[0][2] == 0 && previousState == 0) {
+    previousState = 1;
+    wrongSequence = 0;
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Green;
+      FastLED.show();
+    }
+    delay(500);
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Black;
+      FastLED.show();
+    }
+    delay(10);
+  }
+
+  if (keys[0][2] == 1 && previousState == 1) {
+    previousState = 0;
+  }
+
+  //Falsche Reihenfolge
+  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[1][1] == 0 || keys[2][2] == 0 && previousState == 0) {
+    previousState = 1;
+    inputString = "";
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Red;
+      FastLED.show();
+    }
+    delay(500);
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Black;
+      FastLED.show();
+    }
+    delay(800);
+    wrongSequence = 1;
+  }
+
+  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[1][1] == 0 || keys[2][2] == 0 && previousState == 1) {
+    previousState = 0;
+  }
+
+  //Show sequence again
+  if (wrongSequence == 1) {
+    leds[7] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[7] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[3] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[3] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[5] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[5] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[6] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[6] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+    
+    wrongSequence = 0;
+  }
+}
+
+
 void loop() {
 
   readMatrix();
@@ -422,4 +538,8 @@ void loop() {
   ledStart();
 
   inputButtonSequence();
+
+  displayMatrix();
+
+  comparison();
 }
