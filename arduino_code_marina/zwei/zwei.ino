@@ -261,7 +261,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "1a;";       //"Name" des Knopfes, der gedrückt wurde wird dem String zugefügt.
     xInputLength += 1;
-    delay(100);
+    delay(500);
+    leds[0] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][0] == 1 && key1previousState == 1) {
@@ -274,6 +276,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "2a;";
     xInputLength += 1;
+    delay(500);
+    leds[1] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][0] == 1 && key2previousState == 1) {
@@ -286,6 +291,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "3a;";
     xInputLength += 1;
+    delay(500);
+    leds[2] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][0] == 1 && key3previousState == 1) {
@@ -299,6 +307,9 @@ void inputButtonSequence() {
     inputString += "1b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[5] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][1] == 1 && key4previousState == 1) {
@@ -312,6 +323,9 @@ void inputButtonSequence() {
     inputString += "2b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[4] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][1] == 1 && key5previousState == 1) {
@@ -325,6 +339,9 @@ void inputButtonSequence() {
     inputString += "3b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[3] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][1] == 1 && key6previousState == 1) {
@@ -338,6 +355,9 @@ void inputButtonSequence() {
     inputString += "1c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[6] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][2] == 1 && key7previousState == 1) {
@@ -352,6 +372,9 @@ void inputButtonSequence() {
     inputString += "2c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[7] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][2] == 1 && key8previousState == 1) {
@@ -365,6 +388,9 @@ void inputButtonSequence() {
     inputString += "3c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[8] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][2] == 1 && key9previousState == 1) {
@@ -419,12 +445,12 @@ void stringToArray(String text, char splitChar) {   //Der String wird geteilt (v
       arrayCounter++;
     }
   }
-//    Serial.println(inputArray[0]);
-//    Serial.println(inputArray[1]);
-//    Serial.println(inputArray[2]);
-//    Serial.println(inputArray[3]);
-//    Serial.println(inputArray[4]);
-//    Serial.println(inputArray[5]);
+  //    Serial.println(inputArray[0]);
+  //    Serial.println(inputArray[1]);
+  //    Serial.println(inputArray[2]);
+  //    Serial.println(inputArray[3]);
+  //    Serial.println(inputArray[4]);
+  //    Serial.println(inputArray[5]);
 }
 
 
@@ -432,37 +458,97 @@ int previousReceiveButtonState = 0;
 void displayMatrix() {
   int receiveButton = keys[1][3];
 
-  if (receiveButton = 0 && previousReceiveButtonState == 0) {
-    previousReceiveButtonState = 1;
+  if (receiveButton == 0) {
     leds[7] = CRGB::Blue;
     FastLED.show();
     delay(500);
     leds[7] = CRGB::Black;
     FastLED.show();
     delay(500);
-  
+
     leds[3] = CRGB::Blue;
     FastLED.show();
     delay(500);
     leds[3] = CRGB::Black;
     FastLED.show();
     delay(500);
-  
+
     leds[5] = CRGB::Blue;
     FastLED.show();
     delay(500);
     leds[5] = CRGB::Black;
     FastLED.show();
     delay(500);
-  } 
-  if (previousReceiveButtonState == 1) {
-    previousReceiveButtonState = 0;
   }
 }
 
 
 void comparison() {
-  int receiveButton = keys[1][3];
+  int previousState = 0;
+
+  //Richtige Reihenfolge
+  if (keys[0][1] == 0 && previousState == 0) {
+    previousState = 1;
+    wrongSequence = 0;
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Green;
+      FastLED.show();
+    }
+    delay(500);
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Black;
+      FastLED.show();
+    }
+    delay(10);
+  }
+
+  if (keys[2][0] == 1 && previousState == 1) {
+    previousState = 0;
+  }
+
+  //Falsche Reihenfolge
+  if (keys[0][0] == 0 || keys[1][0] == 0 || keys[2][0] == 0 || keys[1][1] == 0 || keys[0][2] == 0 || keys[2][2] == 0 && previousState == 0) {
+    previousState = 1;
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Red;
+      FastLED.show();
+    }
+    delay(500);
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Black;
+      FastLED.show();
+    }
+    delay(1000);
+    wrongSequence = 1;
+  }
+
+  if (keys[2][0] == 1 && previousState == 1) {
+    previousState = 0;
+  }
+
+  //Show sequence again
+  if (wrongSequence == 1) {
+    leds[7] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[7] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[3] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[3] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+
+    leds[5] = CRGB::Blue;
+    FastLED.show();
+    delay(500);
+    leds[5] = CRGB::Black;
+    FastLED.show();
+    delay(500);
+  }
 }
 
 
@@ -538,6 +624,8 @@ void addElement() {
 
 void loop() {
 
+  displayMatrix();
+
   readMatrix();
 
   //printMatrix();
@@ -550,9 +638,7 @@ void loop() {
 
   //stringToArray(String text, char splitChar);         // ???
 
-  displayMatrix();
-
-  //comparison();
+  comparison();
 
   //addElement();
 
@@ -561,8 +647,6 @@ void loop() {
 
 
   if (stringComplete == 'E') {
-
-
     checkString = "";
     stringComplete = "";
   }

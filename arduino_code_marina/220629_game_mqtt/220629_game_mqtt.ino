@@ -597,8 +597,6 @@ void loop() {
 
 
   if (stringComplete == 'E') {
-
-
     checkString = "";
     stringComplete = "";
   }

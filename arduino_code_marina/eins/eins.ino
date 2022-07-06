@@ -1,3 +1,6 @@
+//Start-Sequenz & Input-Button-Sequenz
+
+
 #include <FastLED.h>
 
 #define NUM_LEDS 12
@@ -260,7 +263,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "1a;";       //"Name" des Knopfes, der gedrückt wurde wird dem String zugefügt.
     xInputLength += 1;
-    delay(100);
+    delay(500);
+    leds[0] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][0] == 1 && key1previousState == 1) {
@@ -273,6 +278,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "2a;";
     xInputLength += 1;
+    delay(500);
+    leds[1] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][0] == 1 && key2previousState == 1) {
@@ -285,6 +293,9 @@ void inputButtonSequence() {
     FastLED.show();
     inputString += "3a;";
     xInputLength += 1;
+    delay(500);
+    leds[2] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][0] == 1 && key3previousState == 1) {
@@ -298,6 +309,9 @@ void inputButtonSequence() {
     inputString += "1b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[5] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][1] == 1 && key4previousState == 1) {
@@ -311,6 +325,9 @@ void inputButtonSequence() {
     inputString += "2b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[4] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][1] == 1 && key5previousState == 1) {
@@ -324,6 +341,9 @@ void inputButtonSequence() {
     inputString += "3b;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[3] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][1] == 1 && key6previousState == 1) {
@@ -337,6 +357,9 @@ void inputButtonSequence() {
     inputString += "1c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[6] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[0][2] == 1 && key7previousState == 1) {
@@ -351,6 +374,9 @@ void inputButtonSequence() {
     inputString += "2c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[7] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[1][2] == 1 && key8previousState == 1) {
@@ -364,6 +390,9 @@ void inputButtonSequence() {
     inputString += "3c;";
     //x += 1;
     xInputLength += 1;
+    delay(500);
+    leds[8] = CRGB::Black;
+    FastLED.show();
   }
 
   if (keys[2][2] == 1 && key9previousState == 1) {
