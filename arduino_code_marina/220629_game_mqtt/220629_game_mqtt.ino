@@ -82,7 +82,7 @@ char stringComplete = "";
 
 void setup() {
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
-  FastLED.setBrightness(10);
+  FastLED.setBrightness(255);
 
   Serial.begin(9600);
 
@@ -438,12 +438,12 @@ void stringToArray(String text, char splitChar) {   //Der String wird geteilt (v
       arrayCounter++;
     }
   }
-//    Serial.println(checkArray[0]);
-//    Serial.println(checkArray[1]);
-//    Serial.println(checkArray[2]);
-//    Serial.println(checkArray[3]);
-//    Serial.println(checkArray[4]);
-//    Serial.println(checkArray[5]);
+  //    Serial.println(checkArray[0]);
+  //    Serial.println(checkArray[1]);
+  //    Serial.println(checkArray[2]);
+  //    Serial.println(checkArray[3]);
+  //    Serial.println(checkArray[4]);
+  //    Serial.println(checkArray[5]);
 }
 
 
@@ -485,17 +485,32 @@ void inputStringToArray(String text, char inputSplitChar) {     //inputString to
       inputArrayCounter++;
     }
   }
-  Serial.println(inputArray[1]);
+  //  Serial.println(inputArray[3]);
+  //  Serial.println(inputArray[2]);
+  //  Serial.println(inputArray[1]);
 }
 
 
-void comparison() {               //Comparing inputString and checkArray
+void comparison() {                                    //Comparing inputString and checkArray
   for (int i = 0; i <= inputArrayCounter; i++) {       //Durchzählung, ob der checkArray gleich einer der vorderen Stelle des pinOut (zweidimensionalen) Arrays ist.
     for (int j = 0; j <= arrayCounter; j++) {
-      if (checkArray == inputArray) {        //Abfrage, wenn die erste Stelle vom pinOut gleich der Stelle des checkArrays ist, wird der Pin der LED ausgegeben.
+      if (checkArray == inputArray) {                  //Abfrage, wenn die erste Stelle vom pinOut gleich der Stelle des checkArrays ist, wird der Pin der LED ausgegeben.
         leds[0] = CRGB::Green;
         FastLED.show();
         delay(1000);
+      }
+      if (checkArray == !inputArray) {
+        for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Red;
+          FastLED.show();
+        }
+        delay(500);
+        for (int i = 0; i <= 8; i++) {
+          leds[i] = CRGB::Black;
+          FastLED.show();
+        }
+        delay(800);
+        wrongSequence = 1;
       }
     }
   }
@@ -588,7 +603,7 @@ void loop() {
 
   displayMatrix();
 
-  //comparison();
+  comparison();
 
   //addElement();
 
