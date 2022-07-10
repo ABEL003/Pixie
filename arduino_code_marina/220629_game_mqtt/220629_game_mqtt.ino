@@ -267,9 +267,11 @@ void ledStart() {
 }
 
 
-int previousSendButtonState = 0;
+int previousSendButtonState = 1;
 
 void inputButtonSequence() {
+
+
 
   int sendButton = keys[2][3];
   int stateSendButton = 0;
@@ -393,21 +395,21 @@ void inputButtonSequence() {
   //Serial.println(sendButton);
 
   //send inputString to Server
-  if (sendButton == previousSendButtonState) {
-    if (sendButton == 0) {
-      Serial.println(inputString);
-      stateSendButton = sendButton;
+  if (sendButton != previousSendButtonState && sendButton == 0) { //vergelich von Sending button nicht gleich prevoius Button und =0
+    Serial.println(inputString);
+    inputString = ""; //input Sring clearen 
+    
+    stateSendButton = sendButton;
 
-      // Alle LEDs aus bei senden
-      for (int i = 0; i <= 8; i++) {
-        leds[i] = CRGB::Black;
-        FastLED.show();
-      }
+    // Alle LEDs aus bei senden
+    for (int i = 0; i <= 8; i++) {
+      leds[i] = CRGB::Black;
+      FastLED.show();
     }
-
-
+    previousSendButtonState = sendButton;
+  } else if (sendButton == 1) {
+    previousSendButtonState = 1;
   }
-  previousSendButtonState = sendButton;
 }
 
 

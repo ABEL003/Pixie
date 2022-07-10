@@ -1,7 +1,7 @@
 const { SerialPort, ReadlineParser } = require('serialport');       //serial port eingebunden, also die library
 
 const port = new SerialPort({
-    'path': "/dev/cu.usbmodem101",
+    'path': "COM6",
     'baudRate': 9600
 })
 
