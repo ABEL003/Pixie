@@ -413,7 +413,7 @@ void inputButtonSequence() {
 }
 
 
-void serialEvent() {                           //Empfangen vom checkString
+void serialEvent() {                           //Empfangen vom inputString
   while (Serial.available()) {                  //solange in schleife, wie Daten reinkommen
     char inChar = (char)Serial.read();          //in inChar wird z.B. "1a;" und dann "1a; 3b;" usw. gespeichert.
 
